@@ -39,12 +39,13 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ChatScreen(
     roomId: String,
-    messageViewModel: MessageViewModel
+    messageViewModel: MessageViewModel = viewModel()
 ){
     val messages by messageViewModel.messages.observeAsState(emptyList())
     messageViewModel.setRoomId(roomId)
 
-    val currentUser : String? = messageViewModel.currentUser.value?.email
+    val currentUser by messageViewModel.currentUser.observeAsState()
+    val currentUserEmail = currentUser?.email
     val text = remember{ mutableStateOf("") }
 
     if (currentUser != null) {
@@ -61,7 +62,7 @@ fun ChatScreen(
                 items(messages){ message ->
                     Log.d("chatscreen","${message.senderId} -- ${messageViewModel.currentUser.value?.email}")
                     ChatMessageItem(message = message.copy(
-                        isSentByCurrentUser = (message.senderId == currentUser)
+                        isSentByCurrentUser = (message.senderId == currentUserEmail)
                     ))
                 }
             }
@@ -98,6 +99,7 @@ fun ChatScreen(
                 }
             }
         }
+
     } else {
         Column(verticalArrangement = Arrangement.Center) {
             Text("Loading user data...")

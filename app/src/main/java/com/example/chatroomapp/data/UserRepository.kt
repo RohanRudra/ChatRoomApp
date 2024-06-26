@@ -43,8 +43,8 @@ class UserRepository(
                     .document(uid).get().await()
                 val user = userDocument.toObject(User::class.java)
                 if(user != null){
-                    Log.e("user","$uid")
-                    Log.e("UserRepository","User loaded")
+//                    Log.e("user","$uid")
+//                    Log.e("UserRepository","User loaded")
                     Result.Success(user)
                 }else{
                     Result.Error(Exception("User Data not found"))

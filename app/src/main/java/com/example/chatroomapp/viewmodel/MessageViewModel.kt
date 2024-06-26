@@ -32,6 +32,7 @@ class MessageViewModel: ViewModel() {
         userRepository = UserRepository(FirebaseAuth.getInstance(),
             Injection.instance())
         loadCurrentUser()
+        Log.e("MessageViewModel","Loaded current user")
     }
 
     private fun loadCurrentUser(){
@@ -39,6 +40,7 @@ class MessageViewModel: ViewModel() {
             when(val result = userRepository.getCurrentUser()){
                 is Result.Success -> {
                     _currentUser.value = result.data
+                    Log.e("MessageViewModel",result.data.email)
                 }
                 is Result.Error -> {
                     Log.e("MessageViewModel","Error in loading current user")

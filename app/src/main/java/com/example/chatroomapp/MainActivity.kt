@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val authViewModel: AuthViewModel = viewModel()
                 val roomViewModel: RoomViewModel = viewModel()
-                val messageViewModel: MessageViewModel = viewModel()
+                //val messageViewModel: MessageViewModel = viewModel()
 
                 ChatRoomAppTheme {
                     Surface(
@@ -52,8 +52,8 @@ class MainActivity : ComponentActivity() {
                         color = MaterialTheme.colorScheme.background
                     ) {
                         NavigationGraph(navController = navController,
-                            authViewModel = authViewModel,
-                            messageViewModel = messageViewModel)
+                            authViewModel = authViewModel)
+                            //messageViewModel = messageViewModel)
                     }
                 }
             }
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
 fun NavigationGraph(
     navController: NavHostController,
     authViewModel: AuthViewModel,
-    messageViewModel: MessageViewModel
+    //messageViewModel: MessageViewModel
 ){
     NavHost(navController = navController, startDestination = Screen.SignupScreen.route){
         composable(route = Screen.SignupScreen.route){
@@ -100,7 +100,7 @@ fun NavigationGraph(
 
         composable("${Screen.ChatScreen.route}/{roomId}"){
             val roomId: String = it.arguments?.getString("roomId") ?: ""
-            ChatScreen(roomId = roomId, messageViewModel = messageViewModel)
+            ChatScreen(roomId = roomId)
         }
     }
 }
