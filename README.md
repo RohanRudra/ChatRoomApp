@@ -23,7 +23,7 @@ The ChatRoomApp is a real-time messaging application developed in Kotlin & Jetpa
 ## Screenshots
 
 ![Home Page](Screenshots/chatlistscreen.png)
-![Signup Page](Screenshots/signup screen.png)
+![Signup Page](Screenshots/signupscreen.png)
 ![Chat Screen](Screenshots/chatscreen.png)
 
 
