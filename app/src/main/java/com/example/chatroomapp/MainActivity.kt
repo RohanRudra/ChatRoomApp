@@ -6,8 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -17,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -39,32 +43,37 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         if(NetworkUtils.isNetworkAvaliable(this)){
-            //Internet Avaliable
+            //Internet Avaliable (Only Mobile Data not Wifi)
             setContent {
-                val navController = rememberNavController()
-                val authViewModel: AuthViewModel = viewModel()
-                val roomViewModel: RoomViewModel = viewModel()
-                //val messageViewModel: MessageViewModel = viewModel()
-
-                ChatRoomAppTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        NavigationGraph(navController = navController,
-                            authViewModel = authViewModel)
-                            //messageViewModel = messageViewModel)
-                    }
-                }
+                startScreen()
             }
         }
         else{
             setContent {
-                NoInternetScreen()
+                NoInternetScreen(this)
             }
         }
 
 
+    }
+}
+
+@Composable
+fun startScreen(){
+    val navController = rememberNavController()
+    val authViewModel: AuthViewModel = viewModel()
+    val roomViewModel: RoomViewModel = viewModel()
+    //val messageViewModel: MessageViewModel = viewModel()
+
+    ChatRoomAppTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            NavigationGraph(navController = navController,
+                authViewModel = authViewModel)
+            //messageViewModel = messageViewModel)
+        }
     }
 }
 
@@ -106,7 +115,7 @@ fun NavigationGraph(
 }
 
 @Composable
-fun NoInternetScreen(){
+fun NoInternetScreen( mainActivity: MainActivity){
     Scaffold {
         Surface(
             modifier = Modifier
@@ -120,6 +129,18 @@ fun NoInternetScreen(){
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text("No Internet Connection", style = MaterialTheme.typography.headlineMedium)
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Button(onClick = {
+                    if(NetworkUtils.isNetworkAvaliable(mainActivity)){
+                        mainActivity.setContent{
+                            startScreen()
+                        }
+                    }
+                }) {
+                    Text(text = "Retry")
+                }
             }
         }
     }
