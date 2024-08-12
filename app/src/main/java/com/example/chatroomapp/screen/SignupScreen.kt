@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -31,6 +32,7 @@ fun SignupScreen(
     onNavigateToLogin: () -> Unit,
     authViewModel: AuthViewModel
 ){
+    val customBlue = Color(0xFF576CBC);
     var email by remember{ mutableStateOf("") }
     var password by remember{ mutableStateOf("") }
     var firstName by remember{ mutableStateOf("") }
@@ -76,7 +78,7 @@ fun SignupScreen(
             firstName = ""
             lastName = ""
         }, modifier = Modifier
-            .width(130.dp)
+            .wrapContentWidth()
             .padding(8.dp)) {
             Text(text = "Sign up")
         }
@@ -87,7 +89,7 @@ fun SignupScreen(
             Text(text = "Already have an account? ")
             Text(text = "Log in.",
                 modifier = Modifier.clickable{ onNavigateToLogin() },
-                color = Color.Blue)
+                color = customBlue)
         }
 
     }

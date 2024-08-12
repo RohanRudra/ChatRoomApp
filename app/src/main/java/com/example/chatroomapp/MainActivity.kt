@@ -102,14 +102,15 @@ fun NavigationGraph(
         composable(route = Screen.ChatRoomsScreen.route){
             ChatRoomListScreen(
                 onJoinClicked = { room->
-                    navController.navigate("${Screen.ChatScreen.route}/${room.id}")
+                    navController.navigate("${Screen.ChatScreen.route}/${room.id}/${room.title}")
                 }
             )
         }
 
-        composable("${Screen.ChatScreen.route}/{roomId}"){
+        composable("${Screen.ChatScreen.route}/{roomId}/{roomTitle}"){
             val roomId: String = it.arguments?.getString("roomId") ?: ""
-            ChatScreen(roomId = roomId)
+            val roomTitle: String = it.arguments?.getString("roomTitle") ?: ""
+            ChatScreen(roomId = roomId, roomTitle = roomTitle)
         }
     }
 }

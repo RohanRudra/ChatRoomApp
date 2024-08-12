@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -26,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +42,7 @@ fun LoginScreen(
     authViewModel: AuthViewModel,
     onSignInSuccess: () -> Unit
 ){
+    val customBlue = Color(0xFF576CBC);
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
@@ -70,21 +73,9 @@ fun LoginScreen(
 
         Button(onClick = {
             authViewModel.login(email,password)
-//            when(result){
-//                is Result.Success -> {
-//                    //onSignInSuccess()
-//                    Toast.makeText(context,"Login Successful",Toast.LENGTH_SHORT).show()
-//                }
-//                is Result.Error -> {
-//                    Toast.makeText(context,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
-//                }
-//                else -> {
-//                    Toast.makeText(context,"Empty result",Toast.LENGTH_SHORT).show()
-//                }
-//            }
         },
             modifier = Modifier
-                .width(100.dp)
+                .wrapContentWidth()
                 .padding(8.dp)
         ) {
             Text("Login")
@@ -94,22 +85,20 @@ fun LoginScreen(
             Text(text = "Don't have an account? ")
             Text(text = "Sign up.",
                 modifier = Modifier.clickable{ onNavigateToSignUp() },
-                color = Color.Blue)
+                color = customBlue)
         }
 
         //this block of code will be executed when the result changes
         LaunchedEffect(key1 = result) {
             when(result){
                 is Result.Success -> {
-                    Toast.makeText(context,"Login Successful",Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(context,"Login Successful",Toast.LENGTH_SHORT).show()
                     onSignInSuccess()
                 }
                 is Result.Error -> {
                     Toast.makeText(context,"Incorrect Credentials",Toast.LENGTH_SHORT).show()
                 }
-                else -> {
-                    //Toast.makeText(context,"Empty result",Toast.LENGTH_SHORT).show()
-                }
+                else -> {}
             }
         }
 
